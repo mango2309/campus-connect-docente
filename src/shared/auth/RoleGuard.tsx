@@ -22,7 +22,7 @@ export function RoleGuard({ allow, children }: RoleGuardProps) {
       <div className="flex min-h-screen items-center justify-center bg-panel px-4">
         <EmptyState
           icon="ti-lock"
-          title="No tenés acceso a este portal"
+          title="No tienes acceso a este portal"
           message={`Este portal es para el rol Docente. Tu sesión es ${user.role}.`}
         />
       </div>

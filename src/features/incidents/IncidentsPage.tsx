@@ -21,16 +21,16 @@ const TYPE_OPTIONS = ['Conducta', 'Salud', 'Seguridad', 'Convivencia', 'Rendimie
 
 const schema = z
   .object({
-    studentId: z.string().length(26, 'Elegí un estudiante de la lista.'),
-    type: z.string().min(1, 'Elegí el tipo de incidente.'),
+    studentId: z.string().length(26, 'Selecciona un estudiante de la lista.'),
+    type: z.string().min(1, 'Selecciona el tipo de incidente.'),
     customType: z.string().optional(),
     severity: z
       .string()
-      .refine((v) => ['Low', 'Medium', 'High'].includes(v), 'Elegí la severidad.'),
-    description: z.string().min(1, 'Describí el incidente.'),
+      .refine((v) => ['Low', 'Medium', 'High'].includes(v), 'Selecciona la severidad.'),
+    description: z.string().min(1, 'Describe el incidente.'),
   })
   .refine((d) => d.type !== 'Otro' || (d.customType?.trim().length ?? 0) > 0, {
-    message: 'Especificá el tipo.',
+    message: 'Especifica el tipo.',
     path: ['customType'],
   })
 
@@ -90,7 +90,7 @@ export function IncidentsPage() {
         <EmptyState
           icon="ti-alert-triangle"
           title="No se pudieron cargar los estudiantes"
-          message="Revisá que el Gateway esté arriba."
+          message="Revisa que el Gateway esté arriba."
         />
       </>
     )
@@ -100,13 +100,13 @@ export function IncidentsPage() {
     <Reveal>
       <PageHeader
         title="Reportar incidente / novedad"
-        subtitle="Registrá una novedad de conducta o bienestar de un estudiante."
+        subtitle="Registra una novedad de conducta o bienestar de un estudiante."
       />
       {!students || students.length === 0 ? (
         <EmptyState
           icon="ti-users"
           title="No hay estudiantes"
-          message="Necesitás estudiantes matriculados (evento StudentEnrolled) para reportar un incidente."
+          message="Necesitas estudiantes matriculados (evento StudentEnrolled) para reportar un incidente."
         />
       ) : (
         <Card className="max-w-2xl p-7">
@@ -116,7 +116,7 @@ export function IncidentsPage() {
           >
             <Field label="Estudiante" error={errors.studentId?.message}>
               <select {...register('studentId')} className={controlClass}>
-                <option value="">Seleccioná un estudiante</option>
+                <option value="">Selecciona un estudiante</option>
                 {students.map((s) => (
                   <option key={s.studentId} value={s.studentId}>
                     {s.fullName} — {s.grade}
@@ -128,7 +128,7 @@ export function IncidentsPage() {
             <div className="grid gap-5 sm:grid-cols-2">
               <Field label="Tipo" error={errors.type?.message}>
                 <select {...register('type')} className={controlClass}>
-                  <option value="">Seleccioná un tipo</option>
+                  <option value="">Selecciona un tipo</option>
                   {TYPE_OPTIONS.map((t) => (
                     <option key={t} value={t}>
                       {t}
@@ -139,7 +139,7 @@ export function IncidentsPage() {
 
               <Field label="Severidad" error={errors.severity?.message}>
                 <select {...register('severity')} className={controlClass}>
-                  <option value="">Seleccioná la severidad</option>
+                  <option value="">Selecciona la severidad</option>
                   <option value="Low">Baja</option>
                   <option value="Medium">Media</option>
                   <option value="High">Alta</option>
@@ -148,7 +148,7 @@ export function IncidentsPage() {
             </div>
 
             {typeValue === 'Otro' && (
-              <Field label="Especificá el tipo" error={errors.customType?.message}>
+              <Field label="Especifica el tipo" error={errors.customType?.message}>
                 <input
                   {...register('customType')}
                   className={controlClass}

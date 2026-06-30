@@ -45,7 +45,7 @@ export function StudentsPage() {
         <EmptyState
           icon="ti-alert-triangle"
           title="No se pudieron cargar los estudiantes"
-          message="Revisá que el Gateway y el servicio de Attendance estén arriba."
+          message="Revisa que el Gateway y el servicio de Attendance estén arriba."
         />
       </>
     )
@@ -53,7 +53,7 @@ export function StudentsPage() {
 
   return (
     <Reveal>
-      <PageHeader title="Estudiantes" subtitle="Consultá el historial de asistencia e incidentes." />
+      <PageHeader title="Estudiantes" subtitle="Consulta el historial de asistencia e incidentes." />
 
       {(students ?? []).length === 0 ? (
         <EmptyState
@@ -97,9 +97,9 @@ export function StudentsPage() {
                 <span className="mx-auto mb-3 flex h-16 w-16 items-center justify-center rounded-2xl bg-vino-soft">
                   <i className="ti ti-calendar-search text-3xl text-vino" aria-hidden="true" />
                 </span>
-                <p className="text-lg font-medium text-ink">Elegí un estudiante</p>
+                <p className="text-lg font-medium text-ink">Selecciona un estudiante</p>
                 <p className="mt-1 text-base text-muted">
-                  Vas a ver su historial en un calendario por día.
+                  Verás su historial en un calendario por día.
                 </p>
               </div>
             </Card>

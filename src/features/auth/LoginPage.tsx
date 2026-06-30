@@ -11,8 +11,8 @@ import { controlClass } from '@/shared/ui/styles'
 import { ApiError } from '@/shared/api/httpClient'
 
 const schema = z.object({
-  username: z.string().min(1, 'Ingresá tu usuario.'),
-  password: z.string().min(1, 'Ingresá tu contraseña.'),
+  username: z.string().min(1, 'Ingresa tu usuario.'),
+  password: z.string().min(1, 'Ingresa tu contraseña.'),
 })
 
 type FormValues = z.infer<typeof schema>
@@ -42,7 +42,7 @@ export function LoginPage() {
       setError(
         e instanceof ApiError && e.status === 401
           ? 'Usuario o contraseña incorrectos.'
-          : 'No se pudo iniciar sesión. Revisá que el Gateway esté arriba.',
+          : 'No se pudo iniciar sesión. Revisa que el Gateway esté arriba.',
       )
     }
   }
@@ -64,7 +64,7 @@ export function LoginPage() {
             <br />y Bienestar
           </h2>
           <p className="mt-4 max-w-md text-lg text-white/80">
-            Tomá asistencia, registrá incidentes y consultá el historial de tus estudiantes en un
+            Toma asistencia, registra incidentes y consulta el historial de tus estudiantes en un
             solo lugar.
           </p>
         </div>

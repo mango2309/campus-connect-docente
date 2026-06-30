@@ -66,7 +66,7 @@ export function AttendancePage() {
         notify('success', `Asistencia guardada: ${total} registro(s).`)
         setMarks({})
       } else {
-        notify('error', `${failed} de ${total} registros fallaron. Reintentá los pendientes.`)
+        notify('error', `${failed} de ${total} registros fallaron. Reintenta los pendientes.`)
       }
     },
     onError: (e) =>
@@ -89,7 +89,7 @@ export function AttendancePage() {
         <EmptyState
           icon="ti-alert-triangle"
           title="No se pudieron cargar los estudiantes"
-          message="Revisá que el Gateway esté arriba."
+          message="Revisa que el Gateway esté arriba."
           action={<Button onClick={() => refetch()}>Reintentar</Button>}
         />
       </>
@@ -102,7 +102,7 @@ export function AttendancePage() {
     <Reveal>
       <PageHeader
         title="Asistencia del día"
-        subtitle="Marcá el estado de cada estudiante y guardá."
+        subtitle="Marca el estado de cada estudiante y guarda."
         actions={<DatePicker value={date} onChange={setDate} />}
       />
 
@@ -131,7 +131,7 @@ export function AttendancePage() {
         <EmptyState
           icon="ti-users"
           title="No hay estudiantes para mostrar"
-          message="La lista se llena cuando Secretaría matricula estudiantes (evento StudentEnrolled). Si recién arrancás, pediles que registren alumnos."
+          message="La lista se llena cuando Secretaría matricula estudiantes (evento StudentEnrolled). Si recién empiezas, pídeles que registren alumnos."
         />
       ) : (
         <Card className="overflow-hidden">

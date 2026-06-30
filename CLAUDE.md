@@ -8,7 +8,7 @@ Financiero/Pagos) sobre esta base. Lee esto antes de escribir código.
 Frontend del **Portal Docente / Bienestar**. Es un repositorio **separado del backend**
 (el backend es .NET y vive en otro repo). Este portal además fija la **identidad visual y la
 base reutilizable** que los demás portales deben respetar (mismos colores, tipografías y
-componentes). No reinventes el estilo: reutilizá `src/shared/`.
+componentes). No reinventes el estilo: reutiliza `src/shared/`.
 
 Hay 3 portales en total, uno por rol:
 | Portal | Rol JWT | Usuario de prueba |
@@ -56,7 +56,7 @@ Scripts: `npm run dev` · `npm run build` · `npm run preview` · `npm run lint`
 ```
 src/
 ├─ app/        router + providers (QueryClient, Auth, Toast, MotionConfig)
-├─ shared/     ◄── BASE REUTILIZABLE — no la dupliques, importala
+├─ shared/     ◄── BASE REUTILIZABLE — no la dupliques, impórtala
 │  ├─ ui/      Button, Field, Card, Badge, Spinner, EmptyState, PageHeader,
 │  │           SegmentedControl, DatePicker, Reveal, pills, toast/useToast
 │  ├─ layout/  AppShell, TopBar (barra vino), NavTabs (regla dorada)
@@ -75,10 +75,10 @@ Alias de import: `@/` → `src/` (ej. `import { Button } from '@/shared/ui/Butto
 
 - **Paleta** (en `tokens.css` como tokens de Tailwind): `vino` `#7A1B2E` (primario),
   `vino-dark`, `oro` `#B0892F` (acento), `ink`, `muted`, `line`, `panel`, y estados
-  `present`/`absent`/`late` con sus `-bg`/`-ink`. Usá `bg-vino`, `text-oro`, etc.
+  `present`/`absent`/`late` con sus `-bg`/`-ink`. Usa `bg-vino`, `text-oro`, etc.
 - **Tipografías**: `font-display` (Spectral, serif) para títulos/marca; `font-sans` (Inter)
   para todo lo operativo. Cargadas en `index.html`.
-- **Elemento firma**: la **regla dorada** bajo cada título → usá `<PageHeader title subtitle />`.
+- **Elemento firma**: la **regla dorada** bajo cada título → usa `<PageHeader title subtitle />`.
 - **Escala**: base 18px (en `tokens.css`). Tamaños en `rem` para que todo escale parejo.
 - **Sombras**: `shadow-card` (tarjetas) y `shadow-pop` (popovers).
 - **Movimiento**: usalo con criterio (entrada de secciones con `<Reveal>`, hover, toasts).
@@ -87,13 +87,13 @@ Alias de import: `@/` → `src/` (ej. `import { Button } from '@/shared/ui/Butto
 
 ## Cómo agregar un portal/pantalla nueva
 
-1. Creá `src/features/<tu-portal>/` con tus páginas y hooks.
+1. Crea `src/features/<tu-portal>/` con tus páginas y hooks.
 2. Datos de servidor con TanStack Query (`useQuery`/`useMutation`) sobre `apiFetch` del
    `httpClient`. Definí los DTOs en `src/types/api.ts`.
 3. Formularios con React Hook Form + Zod (`Field` + `controlClass`/`textareaClass`).
-4. Reutilizá `PageHeader`, `Card`, `Button`, `EmptyState`, `Spinner`, etc. de `shared/ui`.
-5. Registrá las rutas en `src/app/router.tsx` dentro de un `<RoleGuard allow={['<TuRol>']}>`.
-6. Manejá los 3 estados siempre: loading (`Spinner`), error y vacío (`EmptyState`).
+4. Reutiliza `PageHeader`, `Card`, `Button`, `EmptyState`, `Spinner`, etc. de `shared/ui`.
+5. Registra las rutas en `src/app/router.tsx` dentro de un `<RoleGuard allow={['<TuRol>']}>`.
+6. Maneja los 3 estados siempre: loading (`Spinner`), error y vacío (`EmptyState`).
 
 ## Endpoints que consume este portal (vía Gateway)
 
@@ -117,7 +117,7 @@ Alias de import: `@/` → `src/` (ej. `import { Button } from '@/shared/ui/Butto
 ## Gotchas de TypeScript (config del scaffold)
 
 - `verbatimModuleSyntax: true` → importá tipos con `import type { … }`.
-- `erasableSyntaxOnly: true` → **no uses `enum`**; usá uniones de string (`'A' | 'B'`).
+- `erasableSyntaxOnly: true` → **no uses `enum`**; usa uniones de string (`'A' | 'B'`).
 - `noUnusedLocals/Parameters` → no dejes imports ni variables sin usar.
 
 ## Convenciones de git

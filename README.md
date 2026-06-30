@@ -42,11 +42,11 @@ réplica), **attendance** y **gateway**, pero el compose los trae a todos.
 
 ```bash
 npm install
-cp .env.example .env   # default 8080 (docker); poné 5287 si corrés el backend con dotnet run
+cp .env.example .env   # default 8080 (docker); pon 5287 si corres el backend con dotnet run
 npm run dev
 ```
 
-Abrí http://localhost:5173.
+Abre http://localhost:5173.
 
 ### Usuario de prueba
 
@@ -106,7 +106,7 @@ Registrar asistencia publica el evento `AttendanceRecorded`; reportar incidente 
 ## Cómo reutilizar la base (para los otros portales)
 
 Todo lo de `src/shared/` es agnóstico al portal: copiá/importá esos módulos, mantené los
-tokens de `tokens.css`, usá `PageHeader` (regla dorada), `AppShell` y el `httpClient`.
+tokens de `tokens.css`, usa `PageHeader` (regla dorada), `AppShell` y el `httpClient`.
 Cada portal solo agrega su carpeta en `src/features/` y sus rutas en `src/app/router.tsx`
 con el rol correspondiente en `RoleGuard`.
 

@@ -82,7 +82,7 @@ export async function apiFetch<T>(path: string, options: RequestOptions = {}): P
       res = await doFetch()
     } else {
       clearTokens()
-      throw new ApiError(401, 'Tu sesión expiró. Volvé a iniciar sesión.')
+      throw new ApiError(401, 'Tu sesión expiró. Vuelve a iniciar sesión.')
     }
   }
 
