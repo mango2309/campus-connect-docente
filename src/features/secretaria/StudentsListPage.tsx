@@ -142,7 +142,7 @@ export function StudentsListPage() {
           {students.map((s) => (
             <button
               key={s.studentId}
-              onClick={() => navigate(`/academico/estudiantes/${s.studentId}`)}
+              onClick={() => navigate(`/estudiantes/${s.studentId}`)}
               className="ac-table-row"
               style={{ gridTemplateColumns: '1fr 90px 110px 110px' }}
             >

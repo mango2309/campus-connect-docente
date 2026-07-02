@@ -33,7 +33,7 @@ export function LoginAcademicoPage() {
     setError(null)
     try {
       await login(values.username, values.password)
-      const from = (location.state as { from?: string } | null)?.from ?? '/academico'
+      const from = (location.state as { from?: string } | null)?.from ?? (location.pathname === '/login' ? '/' : location.pathname)
       navigate(from, { replace: true })
     } catch (e) {
       setError(

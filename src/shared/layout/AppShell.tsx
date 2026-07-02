@@ -4,7 +4,7 @@ import { NavTabs } from '@/shared/layout/NavTabs'
 
 export function AppShell() {
   return (
-    <div className="min-h-screen bg-panel">
+    <div className="ac-portal ac-page-bg">
       <TopBar />
       <NavTabs />
       <main className="mx-auto max-w-6xl px-6 py-8">

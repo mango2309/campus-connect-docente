@@ -1,6 +1,6 @@
 import type { LoginResponse, UserRole } from '@/types/api'
 
-const KEY = 'cc-docente-auth'
+const KEY = 'cc-academico-auth'
 
 export interface StoredAuth {
   accessToken: string

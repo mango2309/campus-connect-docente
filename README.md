@@ -1,13 +1,11 @@
-# CampusConnect 360 — Portal Docente / Bienestar
+# CampusConnect 360 — Portal Académico / Secretaría
 
-Frontend del **Portal Docente / Bienestar** de CampusConnect 360. Permite a un docente
-tomar asistencia diaria, reportar incidentes/novedades de bienestar y consultar el
-historial de cada estudiante. Consume el backend de microservicios (.NET) a través del
-**API Gateway**.
+Frontend del **Portal Académico / Secretaría** de CampusConnect 360. Permite matricular
+estudiantes, consultar el listado y ver la ficha e historial académico desde una sola
+interfaz. Consume el backend de microservicios (.NET) a través del **API Gateway**.
 
-> Repositorio independiente del backend. Este portal además establece la **base de diseño
-> reutilizable** (tokens, componentes, layout, cliente HTTP, auth) que heredan los otros
-> dos portales (Académico/Secretaría y Financiero/Pagos).
+> Repositorio independiente del backend. Este fork sirve solo el portal Académico /
+> Secretaría; los demás frontends viven en sus propios repositorios y despliegues.
 
 ## Stack
 
@@ -34,9 +32,9 @@ Desde el repo del backend (`campus-connect`):
 docker compose -f docker-compose.yml -f docker-compose.local.yml --profile services up -d --build
 ```
 
-Esto levanta Postgres + RabbitMQ + los 6 microservicios + Gateway (8080). Para el Portal
-Docente alcanza con que estén arriba **identity**, **academic** (para matricular y poblar la
-réplica), **attendance** y **gateway**, pero el compose los trae a todos.
+Esto levanta Postgres + RabbitMQ + los 6 microservicios + Gateway (8080). Para este portal
+alcanza con que estén arriba **identity**, **academic** (para matricular y poblar la réplica)
+y **gateway**, pero el compose los trae a todos.
 
 ## Cómo ejecutar el frontend
 
@@ -50,11 +48,12 @@ Abre http://localhost:5173.
 
 ### Usuario de prueba
 
-| Usuario   | Contraseña  | Rol     |
-| --------- | ----------- | ------- |
-| docente1  | Admin1234!  | Docente |
+| Usuario      | Contraseña  | Rol        |
+| ------------ | ----------- | ---------- |
+| secretaria1  | Admin1234!  | Secretaria |
 
-> El portal exige rol **Docente**. Otros roles ven una pantalla de "sin acceso".
+> El portal exige rol **Secretaria** o **Direccion**. Otros roles ven una pantalla de
+> "sin acceso".
 
 ### Importante: lista de estudiantes
 
@@ -72,7 +71,7 @@ El backend no expone CORS. El dev server de Vite hace **proxy** de `/api` hacia 
 ```
 src/
 ├─ app/         router + providers (QueryClient, Auth, Toast)
-├─ shared/      BASE REUTILIZABLE por los 3 portales
+├─ shared/      base reutilizable del portal
 │  ├─ ui/       Button, Field, Card, Badge, Spinner, EmptyState, PageHeader,
 │  │            SegmentedControl, pills, toast
 │  ├─ layout/   AppShell, TopBar (barra vino), NavTabs (regla dorada)
@@ -80,35 +79,40 @@ src/
 │  ├─ auth/     AuthContext, useAuth, RoleGuard, authStorage
 │  ├─ lib/      utilidades (initials, today)
 │  └─ styles/   tokens.css (variables UDLA)
-├─ features/    ESPECÍFICO del Portal Docente
+├─ features/    módulos del portal Académico / Secretaría
 │  ├─ auth/         LoginPage
-│  ├─ attendance/   AttendancePage (asistencia del día)
-│  ├─ incidents/    IncidentsPage (reportar incidente)
-│  └─ students/     StudentsPage (lista + historial)
+│  ├─ secretaria/   matrícula, listado y ficha de estudiantes
+│  ├─ attendance/   AttendancePage (si aplica en este fork)
+│  └─ incidents/    IncidentsPage (si aplica en este fork)
 └─ types/       contratos del backend (DTOs)
 ```
 
 ## Endpoints que consume (vía Gateway)
 
-| Acción               | Método y ruta                                | Rol     |
-| -------------------- | -------------------------------------------- | ------- |
-| Login                | `POST /api/identity/auth/login`              | público |
-| Refresh token        | `POST /api/identity/auth/refresh`            | público |
-| Listar estudiantes   | `GET /api/attendance/students`               | Docente |
-| Registrar asistencia | `POST /api/attendance/records`               | Docente |
-| Reportar incidente   | `POST /api/attendance/incidents`             | Docente |
-| Historial estudiante | `GET /api/attendance/students/{id}/history`  | Docente |
-| Health               | `GET /api/attendance/health`                 | público |
+| Acción               | Método y ruta                               | Rol        |
+| -------------------- | ------------------------------------------- | ---------- |
+| Login                | `POST /api/identity/auth/login`             | público    |
+| Refresh token        | `POST /api/identity/auth/refresh`           | público    |
+| Listar estudiantes   | `GET /api/attendance/students`              | Secretaria |
+| Registrar asistencia | `POST /api/attendance/records`              | Secretaria |
+| Reportar incidente   | `POST /api/attendance/incidents`            | Secretaria |
+| Historial estudiante | `GET /api/attendance/students/{id}/history` | Secretaria |
+| Health               | `GET /api/attendance/health`                | público    |
 
 Registrar asistencia publica el evento `AttendanceRecorded`; reportar incidente publica
 `IncidentReported`. El frontend solo dispara las acciones — la mensajería la maneja el backend.
 
-## Cómo reutilizar la base (para los otros portales)
+## Estructura de rutas
 
-Todo lo de `src/shared/` es agnóstico al portal: copiá/importá esos módulos, mantené los
-tokens de `tokens.css`, usa `PageHeader` (regla dorada), `AppShell` y el `httpClient`.
-Cada portal solo agrega su carpeta en `src/features/` y sus rutas en `src/app/router.tsx`
-con el rol correspondiente en `RoleGuard`.
+- `/login` es la pantalla de acceso.
+- `/` es la vista principal de matrícula.
+- `/estudiantes` muestra el listado.
+- `/estudiantes/:studentId` muestra la ficha del estudiante.
+
+## Cómo reutilizar la base
+
+Todo lo de `src/shared/` es reutilizable dentro de este portal: mantené los tokens de
+`tokens.css`, usa `PageHeader` (regla dorada), `AppShell` y el `httpClient`.
 
 ## Scripts
 

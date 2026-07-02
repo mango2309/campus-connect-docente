@@ -1,45 +1,42 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter, Navigate } from 'react-router-dom'
+import { useAuth } from '@/shared/auth/useAuth'
 import { AppShell } from '@/shared/layout/AppShell'
-import { AcademicoShell } from '@/shared/layout/AcademicoShell'
 import { RoleGuard } from '@/shared/auth/RoleGuard'
-import { LoginPage } from '@/features/auth/LoginPage'
 import { LoginAcademicoPage } from '@/features/auth/LoginAcademicoPage'
-import { AttendancePage } from '@/features/attendance/AttendancePage'
-import { IncidentsPage } from '@/features/incidents/IncidentsPage'
-import { StudentsPage } from '@/features/students/StudentsPage'
 import { RegisterStudentPage } from '@/features/secretaria/RegisterStudentPage'
 import { StudentsListPage } from '@/features/secretaria/StudentsListPage'
 import { StudentDetailPage } from '@/features/secretaria/StudentDetailPage'
 
-export const router = createBrowserRouter([
-  // ── Portal Docente ──
-  { path: '/login', element: <LoginPage /> },
-  {
-    element: (
-      <RoleGuard allow={['Docente']}>
-        <AppShell />
-      </RoleGuard>
-    ),
-    children: [
-      { index: true, element: <AttendancePage /> },
-      { path: 'incidentes', element: <IncidentsPage /> },
-      { path: 'estudiantes', element: <StudentsPage /> },
-    ],
-  },
+function RootGate() {
+  const { isAuthenticated } = useAuth()
 
-  // ── Portal Académico / Secretaría ──
-  { path: '/academico/login', element: <LoginAcademicoPage /> },
+  if (!isAuthenticated) {
+    return <LoginAcademicoPage />
+  }
+
+  return (
+    <RoleGuard allow={['Secretaria', 'Direccion']}>
+      <AppShell />
+    </RoleGuard>
+  )
+}
+
+export const router = createBrowserRouter([
   {
-    path: '/academico',
-    element: (
-      <RoleGuard allow={['Secretaria', 'Direccion']} loginPath="/academico/login">
-        <AcademicoShell />
-      </RoleGuard>
-    ),
+    path: '/',
+    element: <RootGate />,
     children: [
       { index: true, element: <RegisterStudentPage /> },
       { path: 'estudiantes', element: <StudentsListPage /> },
       { path: 'estudiantes/:studentId', element: <StudentDetailPage /> },
     ],
+  },
+  {
+    path: '/login',
+    element: <Navigate to="/" replace />,
+  },
+  {
+    path: '*',
+    element: <Navigate to="/" replace />,
   },
 ])
